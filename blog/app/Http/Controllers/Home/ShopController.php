@@ -8,8 +8,8 @@ use DB;
 class ShopController extends Controller
 {
     public function index(Request $request){
-        $id = $request->session->get('homeid');
-    	$data = DB::table('shopping_cart')->where('id',1)->get();
+        $id = $request->session()->get('homeid');
+    	$data = DB::table('shopping_cart')->where('user_id',$id)->get();
     	// 购物车页面
     	return view('Home.shopcart',['data'=>$data]);
     }
@@ -34,43 +34,52 @@ class ShopController extends Controller
     	}
     }
 
-    public function jia(Request $request){
-        $id = $request->input('id');
+    public function jia(Request $request,$id){
+        // $id = $request->input('id');
         $res = DB::table('shopping_cart')->where('id',$id)->first();
         $shop = $res->number+1;
     	$data = DB::table('shopping_cart')->where('id',$id)->update(['number'=>$shop]);
-        $ress = DB::table('shopping_cart')->where('id',$id)->first();
+       /* $ress = DB::table('shopping_cart')->where('id',$id)->first();
         $json = [
             'number'=>$ress->number,
             'price'=>$ress->price
         ];
-        echo json_encode($json);
-    	// if($data){
-    	// 	return back();
-    	// }else{
-    	// 	return back();
-    	// }
+        echo json_encode($json);*/
+    	if($data){
+    		return back();
+    	}else{
+    		return back();
+    	}
     }
 
-    public function jian(Request $request){
-        $id = $request->input('id');
+    public function jian(Request $request,$id){
+        // $id = $request->input('id');
         $res = DB::table('shopping_cart')->where('id',$id)->first();
         if($res->number < 2){
             $res->number = 1;
         }
         $shop = $res->number-1;
         $data = DB::table('shopping_cart')->where('id',$id)->update(['number'=>$shop]);
-        $ress = DB::table('shopping_cart')->where('id',$id)->first();
-        $json = [
+        // $ress = DB::table('shopping_cart')->where('id',$id)->first();
+        /*$json = [
             'number'=>$ress->number,
             'price'=>$ress->price
         ];
-        echo json_encode($json);
-        // if($data){
-        //     return back();
-        // }else{
-        //     return back();
-        // }
+        echo json_encode($json);*/
+        if($data){
+            return back();
+        }else{
+            return back();
+        }
+    }
+
+    public function delete(Request $request,$id){
+        $data = DB::table('shopping_cart')->where('id',$id)->delete();
+        if($data){
+            return back();
+        }else{
+            return back();
+        }
     }
 
 }

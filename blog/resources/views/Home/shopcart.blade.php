@@ -99,7 +99,7 @@
 								<ul class="item-content clearfix">
 									<li class="td td-chk">
 										<div class="cart-checkbox ">
-											<input class="check" id="J_CheckBox_170037950254" name="items[]" value="170037950254" type="checkbox" checked>
+											<input class="check" id="J_CheckBox_170037950254" name="items[]" value="170037950254" type="checkbox" onclick="dian({{$v->id}})">
 											<label for="J_CheckBox_170037950254"></label>
 										</div>
 									</li>
@@ -138,11 +138,11 @@
 										<div class="amount-wrapper ">
 											<div class="item-amount ">
 												<div class="sl">
-													
-													<input class="min am-btn" name="jian" id="jian" type="button" value="-" onclick="jian({{$v->id}})"/>
+													<a href="/home/shop/jian/{{$v->id}}">
+													<input class="min am-btn" name="jian" id="jian" type="button" value="-"/></a>
 													<input class="text_box" name="" type="text" value="{{ $v->number }}" style="width:30px;" id="number"  />
-													
-													<input class="add am-btn" name="jia" type="button" value="+" onclick="jia({{$v->id}})"/>
+													<a href="/home/shop/jia/{{$v->id}}">
+													<input class="add am-btn" name="jia" type="button" value="+" /></a>
 												</div>
 											</div>
 										</div>
@@ -157,7 +157,7 @@
 										<div class="td-inner">
 											<a title="移入收藏夹" class="btn-fav" href="#">
                   移入收藏夹</a>
-											<a href="javascript:;" data-point-url="#" class="delete">
+											<a href="javascript:;" data-point-url="/home/shop/delete/{{$v->id}}" class="delete" onclick="return confirm('你确定要删除吗')">
                   删除</a>
 										</div>
 									</li>
@@ -172,7 +172,7 @@
 				<div class="float-bar-wrapper">
 					<div id="J_SelectAll2" class="select-all J_SelectAll">
 						<div class="cart-checkbox">
-							<input class="check-all check" id="J_SelectAllCbx2" name="select-all" value="true" type="checkbox">
+							<input class="check-all check" id="J_SelectAllCbx2" name="select-all" value="true" type="checkbox" >
 							<label for="J_SelectAllCbx2"></label>
 						</div>
 						<span>全选</span>
@@ -296,8 +296,34 @@
 
 </html>
 <script type="text/javascript">
+	 document.getElementById('J_SelectAllCbx2').onclick = function(){
+	    var tb = document.getElementsByClassName('check');
+	    if(this.checked == true){
+	    	for (var i = 0; i < tb.length; i++){
+	    	    tb[i].checked = true;
+			}        
+		}else{
+	        for (var i = 0; i < tb.length; i++){
+	            tb[i].checked = false;
+	    	}        
+		}
+	}
+</script>
+<script type="text/javascript">
+		function dian(id){
+			if($('.check').attr('checked',false)){
+				$('.check').attr('checked',true);
+			}
+			if($('.check').attr('checked',true)){
+				$('.check').attr('checked',false);
+			}
+		}
+		
 
-	function jia(id){
+</script>
+<script type="text/javascript">
+
+	/*function jia(id){
 		// var shop =  $('#number').val();
 		// var price = $("#price").text();
 		$.ajax({
@@ -306,18 +332,19 @@
                 },
 			type:'post',
 			url:'/home/shop/jia',
-			data:{'id':id},
+			data:{'id':id},`
 			dataType: 'json',
 			success:function(ress){
-				$('#number').val(ress['number']);
+				console.log(ress);
+				// $('#number').val(ress['number']);
 				$('#price').text(ress['price'] * ress['number']);
 
 			}
 		});
-	}
+	}*/
 </script>
 <script type="text/javascript">
-	function jian(id){
+	/*function jian(id){
 		
 		$.ajax({
 			headers: {
@@ -329,9 +356,9 @@
 			dataType: 'json',
 			success:function(ress){
 				
-				$('#number').val(ress['number']);
+				// $('#number').val(ress['number']);
 				$('#price').text(ress['price'] * ress['number']);
 			}
 		});
-	}
+	}*/
 </script>

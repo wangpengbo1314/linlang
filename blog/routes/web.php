@@ -84,5 +84,6 @@ Route::post('/home/safety/list','Home\SafetyController@list');
 // 购物车
 Route::get('/home/shop/index','Home\ShopController@index');
 Route::get('/home/shop/show','Home\ShopController@show');
-Route::post('/home/shop/jia','Home\ShopController@jia');
-Route::post('/home/shop/jian','Home\ShopController@jian');
+Route::get('/home/shop/jia/{id}','Home\ShopController@jia');
+Route::get('/home/shop/jian/{id}','Home\ShopController@jian');
+Route::get('/home/shop/delete/{id}','Home\ShopController@delete');
