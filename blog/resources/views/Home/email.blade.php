@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
-
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<title>验证邮箱</title>
 
 		<link href="/Home/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
@@ -15,6 +15,9 @@
 
 		<script type="text/javascript" src="/Home/js/jquery-1.7.2.min.js"></script>
 		<script src="/Home/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
+		<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
 	</head>
 
@@ -35,13 +38,13 @@
 						</ul>
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/" target="_top" class="h">商城首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+								<div class="menu-hd MyShangcheng"><a href="/home/user/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+								<div class="menu-hd"><a id="mc-menu-hd" href="/home/shop/index" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 							</div>
 							<div class="topMessage favorite">
 								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -102,7 +105,7 @@
                                 <i class="u-stage-icon-inner">1<em class="bg"></em></i>
                                 <p class="stage-name">验证邮箱</p>
                             </span>
-							<span class="step-2 step">
+							<span class="step-2 step" id="step">
                                 <em class="u-progress-stage-bg"></em>
                                 <i class="u-stage-icon-inner">2<em class="bg"></em></i>
                                 <p class="stage-name">完成</p>
@@ -113,29 +116,44 @@
 							<div class="u-progress-bar-inner"></div>
 						</div>
 					</div>
-					<form class="am-form am-form-horizontal">
+
+					<form class="am-form am-form-horizontal" action="/home/safety/list" method="post">
+						{{ csrf_field() }}
 						<div class="am-form-group">
 							<label for="user-email" class="am-form-label">验证邮箱</label>
 							<div class="am-form-content">
-								<input type="email" id="user-email" placeholder="请输入邮箱地址">
+								<input type="email" id="user-email" name="email" placeholder="请输入邮箱地址">
 							</div>
 						</div>
 						<div class="am-form-group code">
 							<label for="user-code" class="am-form-label">验证码</label>
 							<div class="am-form-content">
-								<input type="tel" id="user-code" placeholder="验证码">
+								<input type="tel" id="user-code" name="yan" placeholder="验证码">
 							</div>
-							<a class="btn" href="javascript:void(0);" onClick="sendMobileCode();" id="sendMobileCode">
+							<a class="btn" href="javascript:void(0);" onclick="email()" id="sendMobileCode">
 								<div class="am-btn am-btn-danger">验证码</div>
 							</a>
 						</div>
 						<div class="info-btn">
-							<div class="am-btn am-btn-danger">保存修改</div>
+							<input type="submit" value="保存修改" class="am-btn am-btn-danger">
 						</div>
 
 					</form>
 
 				</div>
+				@if (session('error'))
+						<div class="alert alert-warning alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						        {{ session('error') }}
+						</div>
+				@endif
+				@if (session('success'))
+					<div class="alert alert-warning alert-danger" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						{{ session('success') }}
+					</div>
+				@endif
+
 				<!--底部-->
 				<div class="footer">
 					<div class="footer-hd">
@@ -164,14 +182,14 @@
 			<aside class="menu">
 				<ul>
 					<li class="person">
-						<a href="index.html">个人中心</a>
+						<a href="/home/user/personal">个人中心</a>
 					</li>
 					<li class="person">
 						<a href="#">个人资料</a>
 						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li> <a href="safety.html">安全设置</a></li>
-							<li> <a href="address.html">收货地址</a></li>
+							<li> <a href="/home/user/{{ $phone }}">个人信息</a></li>
+							<li> <a href="/home/safety/index">安全设置</a></li>
+							<li> <a href="/home/address">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">
@@ -208,3 +226,25 @@
 	</body>
 
 </html>
+<script type="text/javascript">
+	
+	function email(){
+		
+		var email = document.getElementById("user-email").value;
+		
+		$.ajax({
+		headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               },
+        type:'post',
+			url:'/home/safety/show',
+			data:{
+				'email':$("#user-email").val()
+			},
+			dataType: 'json',
+			success:function(email){
+				$('#step').addClass('step-1 step');
+			}
+		});
+	}
+</script>

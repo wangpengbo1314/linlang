@@ -14,7 +14,9 @@
 		<link href="/Home/css/dlstyle.css" rel="stylesheet" type="text/css">
 		<script src="/Home/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
 		<script src="/Home/AmazeUI-2.4.2/assets/js/amazeui.min.js"></script>
-
+		<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 	</head>
 
 	<body>
@@ -34,6 +36,17 @@
 						</ul>
 
 		<div class="am-tab-panel">
+			<!-- 显示错误处理 -->
+		@if (count($errors) > 0)
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+        @endif
 			<form action="/home/register" method="post">
 					{{ csrf_field() }}
                  <div class="user-phone">

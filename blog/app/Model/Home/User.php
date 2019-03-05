@@ -11,6 +11,16 @@ class User extends Model
 
     public function userinfo(){
 
-    	return $this->hasOne('App\Model\Home\Userinfo','user_id');
+    	return $this->hasMany('App\Model\Home\Userinfo','user_id');
+    }
+
+    public function userlogin(){
+
+    	return $this->hasMany('App\Model\Home\Userlogin','user_id');
+    }
+
+    public function useraddress(){
+
+    	return $this->hasMany('App\Model\Home\Address','user_id');
     }
 }

@@ -24,7 +24,7 @@
 						<ul class="message-l">
 							<div class="topMessage">
 								<div class="menu-hd">
-									<a href="#" target="_top" class="h">亲，请登录</a>
+									<a href="#" target="_top" class="h">{{$data->nickname}}</a>
 									<a href="#" target="_top">免费注册</a>
 								</div>
 							</div>
@@ -34,10 +34,10 @@
 								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+								<div class="menu-hd MyShangcheng"><a href="/home/user/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+								<div class="menu-hd"><a id="mc-menu-hd" href="/home/shop/index" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 							</div>
 							<div class="topMessage favorite">
 								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -97,24 +97,13 @@
 						<div class="user-infoPic">
 
 							<div class="filePic">
-								<img class="am-circle am-img-thumbnail" src="/Home/images/getAvatar.do.jpg" alt="" />
+								<img class="am-circle am-img-thumbnail" src="/images/{{$data->img}}" alt="" />
 							</div>
 
 							<p class="am-form-help">头像</p>
 
 							<div class="info-m">
-								<div><b>用户名：<i>小叮当</i></b></div>
-								<div class="u-level">
-									<span class="rank r2">
-							             <s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
-						            </span>
-								</div>
-								<div class="u-safety">
-									<a href="safety.html">
-									 账户安全
-									<span class="u-profile"><i class="bc_ee0000" style="width: 60px;" width="0">60分</i></span>
-									</a>
-								</div>
+								<div><b>用户名：<i>{{$data->nickname}}</i></b></div>
 							</div>
 						</div>
 
@@ -127,20 +116,8 @@
 										<div class="fore2"><small>为保证您购物安全，建议您定期更改密码以保护账户安全。</small></div>
 									</div>
 									<div class="fore3">
-										<a href="password.html">
+										<a href="/home/register/pass">
 											<div class="am-btn am-btn-secondary">修改</div>
-										</a>
-									</div>
-								</li>
-								<li>
-									<i class="i-safety-wallet"></i>
-									<div class="m-left">
-										<div class="fore1">支付密码</div>
-										<div class="fore2"><small>启用支付密码功能，为您资产账户安全加把锁。</small></div>
-									</div>
-									<div class="fore3">
-										<a href="setpay.html">
-											<div class="am-btn am-btn-secondary">立即启用</div>
 										</a>
 									</div>
 								</li>
@@ -148,7 +125,7 @@
 									<i class="i-safety-iphone"></i>
 									<div class="m-left">
 										<div class="fore1">手机验证</div>
-										<div class="fore2"><small>您验证的手机：186XXXXXXXX 若已丢失或停用，请立即更换</small></div>
+										<div class="fore2"><small>您验证的手机：{{$phone}} 若已丢失或停用，请立即更换</small></div>
 									</div>
 									<div class="fore3">
 										<a href="bindphone.html">
@@ -159,12 +136,12 @@
 								<li>
 									<i class="i-safety-mail"></i>
 									<div class="m-left">
-										<div class="fore1">邮箱验证</div>
-										<div class="fore2"><small>您验证的邮箱：5831XXX@qq.com 可用于快速找回登录密码</small></div>
+										<div class="fore1">邮箱认证</div>
+										<div class="fore2"><small>您验证的邮箱：{{$data->email}} 可用于快速认证信息</small></div>
 									</div>
 									<div class="fore3">
-										<a href="email.html">
-											<div class="am-btn am-btn-secondary">换绑</div>
+										<a href="/home/safety/email">
+											<div class="am-btn am-btn-secondary">认证</div>
 										</a>
 									</div>
 								</li>
@@ -225,14 +202,14 @@
 			<aside class="menu">
 				<ul>
 					<li class="person">
-						<a href="index.html">个人中心</a>
+						<a href="/home/user/personal">个人中心</a>
 					</li>
 					<li class="person">
 						<a href="#">个人资料</a>
 						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li class="active"> <a href="safety.html">安全设置</a></li>
-							<li> <a href="address.html">收货地址</a></li>
+							<li> <a href="/home/user/{{ $phone }}">个人信息</a></li>
+							<li class="active"> <a href="/home/safety/index">安全设置</a></li>
+							<li> <a href="/home/address">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">

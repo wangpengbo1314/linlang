@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 
 		<title>地址管理</title>
 
@@ -14,7 +15,11 @@
 		<link href="/Home/css/addstyle.css" rel="stylesheet" type="text/css">
 		<script src="/Home/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
 		<script src="/Home/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
-
+		<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/Home/js/city.js"></script>
+		<script type="text/javascript" src="/Home/js/addresss.js"></script>
 	</head>
 
 	<body>
@@ -34,13 +39,13 @@
 						</ul>
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/" target="_top" class="h">商城首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
-								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+								<div class="menu-hd MyShangcheng"><a href="/home/user/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 							</div>
 							<div class="topMessage mini-cart">
-								<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+								<div class="menu-hd"><a id="mc-menu-hd" href="/home/shop/index" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 							</div>
 							<div class="topMessage favorite">
 								<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -98,68 +103,60 @@
 						</div>
 						<hr/>
 						<ul class="am-avg-sm-1 am-avg-md-3 am-thumbnails">
-
-							<li class="user-addresslist defaultAddr">
-								<span class="new-option-r"><i class="am-icon-check-circle"></i>默认地址</span>
+							@foreach($add as $k=>$v)
+							@if($v->status == 0)
+							<li class="user-addresslist defaultAddr" id="address" onclick="fan({{$v->status}},{{$v->user_id}},{{ $v->id }})">
+								<span class="new-option-r"><!-- <i class="am-icon-check-circle"></i> -->默认地址</span>
 								<p class="new-tit new-p-re">
-									<span class="new-txt">小叮当</span>
-									<span class="new-txt-rd2">159****1622</span>
+									<span class="new-txt">{{ $v->name }}</span>
+									<span class="new-txt-rd2">{{ $v->phone }}</span>
 								</p>
-								<div class="new-mu_l2a new-p-re">
+								<div class="new-mu_l2cw new-p-re">
 									<p class="new-mu_l2cw">
 										<span class="title">地址：</span>
-										<span class="province">湖北</span>省
-										<span class="city">武汉</span>市
-										<span class="dist">洪山</span>区
-										<span class="street">雄楚大道666号(中南财经政法大学)</span></p>
+										<span class="province">{{ $v->cmbProvince }}</span>省
+										<span class="city">{{ $v->cmbCity }}</span>
+										<span class="dist">{{ $v->cmbArea }}</span>
+										<span class="street">{{ $v->cmdAddress }}</span></p>
 								</div>
 								<div class="new-addr-btn">
 									<a href="#"><i class="am-icon-edit"></i>编辑</a>
 									<span class="new-addr-bar">|</span>
-									<a href="javascript:void(0);" onClick="delClick(this);"><i class="am-icon-trash"></i>删除</a>
+									<form action="/home/address/{{ $v->id }}" method="post" style="float:right">
+										{{ csrf_field() }}
+										{{ method_field('DELETE') }}
+									<a href="javascript:void(0);" onClick="delClick(this);"><i class="am-icon-trash"></i><input type="submit" value="删除" style="border:none;background-color: white;outline:none;" onclick="return confirm('确认要删除吗?')"></a>
+									</form>
 								</div>
 							</li>
-
-							<li class="user-addresslist">
-								<span class="new-option-r"><i class="am-icon-check-circle"></i>设为默认</span>
+							@else
+							<li class="user-addresslist" id="address" onclick="fan({{$v->status}},{{ $v->user_id }},{{$v->id}})">
+								<span class="new-option-r"><!-- <i class="am-icon-check-circle"></i> -->默认地址</span>
 								<p class="new-tit new-p-re">
-									<span class="new-txt">小叮当</span>
-									<span class="new-txt-rd2">159****1622</span>
+									<span class="new-txt">{{ $v->name }}</span>
+									<span class="new-txt-rd2">{{ $v->phone }}</span>
 								</p>
-								<div class="new-mu_l2a new-p-re">
+								<div class="new-mu_l2cw new-p-re">
 									<p class="new-mu_l2cw">
 										<span class="title">地址：</span>
-										<span class="province">湖北</span>省
-										<span class="city">武汉</span>市
-										<span class="dist">洪山</span>区
-										<span class="street">雄楚大道666号(中南财经政法大学)</span></p>
+										<span class="province">{{ $v->cmbProvince }}</span>省
+										<span class="city">{{ $v->cmbCity }}</span>
+										<span class="dist">{{ $v->cmbArea }}</span>
+										<span class="street">{{ $v->cmdAddress }}</span></p>
 								</div>
 								<div class="new-addr-btn">
 									<a href="#"><i class="am-icon-edit"></i>编辑</a>
 									<span class="new-addr-bar">|</span>
-									<a href="javascript:void(0);" onClick="delClick(this);"><i class="am-icon-trash"></i>删除</a>
+									<form action="/home/address/{{ $v->id }}" method="post" style="float:right">
+										{{ csrf_field() }}
+										{{ method_field('DELETE') }}
+									<a href="javascript:void(0);" onClick="delClick(this);"><i class="am-icon-trash"></i><input type="submit" value="删除" style="border:none;background-color: white;outline:none;" onclick="return confirm('确认要删除吗?')"></a>
+									</form>
 								</div>
 							</li>
-							<li class="user-addresslist">
-								<span class="new-option-r"><i class="am-icon-check-circle"></i>设为默认</span>
-								<p class="new-tit new-p-re">
-									<span class="new-txt">小叮当</span>
-									<span class="new-txt-rd2">159****1622</span>
-								</p>
-								<div class="new-mu_l2a new-p-re">
-									<p class="new-mu_l2cw">
-										<span class="title">地址：</span>
-										<span class="province">湖北</span>省
-										<span class="city">武汉</span>市
-										<span class="dist">洪山</span>区
-										<span class="street">雄楚大道666号(中南财经政法大学)</span></p>
-								</div>
-								<div class="new-addr-btn">
-									<a href="#"><i class="am-icon-edit"></i>编辑</a>
-									<span class="new-addr-bar">|</span>
-									<a href="javascript:void(0);" onClick="delClick(this);"><i class="am-icon-trash"></i>删除</a>
-								</div>
-							</li>
+							@endif
+							
+							@endforeach
 						</ul>
 						<div class="clear"></div>
 						<a class="new-abtn-type" data-am-modal="{target: '#doc-modal-1', closeViaDimmer: 0}">添加新地址</a>
@@ -175,51 +172,63 @@
 								<hr/>
 
 								<div class="am-u-md-12 am-u-lg-8" style="margin-top: 20px;">
-									<form class="am-form am-form-horizontal">
-
+									<!-- 显示错误处理 -->
+		@if (count($errors) > 0)
+            <div class="alert alert-warning alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+        @endif
+									<form class="am-form am-form-horizontal" action="/home/address" method="post">
+										{{ csrf_field() }}
 										<div class="am-form-group">
 											<label for="user-name" class="am-form-label">收货人</label>
 											<div class="am-form-content">
-												<input type="text" id="user-name" placeholder="收货人">
+												<input type="text" id="user-name" placeholder="收货人" name="name" value="{{ old('name') }}">
 											</div>
 										</div>
 
 										<div class="am-form-group">
 											<label for="user-phone" class="am-form-label">手机号码</label>
 											<div class="am-form-content">
-												<input id="user-phone" placeholder="手机号必填" type="email">
+												<input id="user-phone" placeholder="手机号必填" type="text" name="phone" value="{{ old('phone') }}">
 											</div>
+										</div>
+										<div class="am-form-group">
+											<label for="user-phone" class="am-form-label">默认地址状态</label>
+												<select data-am-selected name="status">
+													<option value="0">默认</option>
+													<option value="1">不默认</option>
+												</select>
 										</div>
 										<div class="am-form-group">
 											<label for="user-address" class="am-form-label">所在地</label>
 											<div class="am-form-content address">
-												<select data-am-selected>
-													<option value="a">浙江省</option>
-													<option value="b" selected>湖北省</option>
-												</select>
-												<select data-am-selected>
-													<option value="a">温州市</option>
-													<option value="b" selected>武汉市</option>
-												</select>
-												<select data-am-selected>
-													<option value="a">瑞安区</option>
-													<option value="b" selected>洪山区</option>
-												</select>
+												<!-- <select name="province" id="province" onchange="selectCityByPid()"></select>
+												<select name="city" id="city"></select> -->
+<select id="cmbProvince" name="cmbProvince" value="{{ old('cmbProvince') }}"></select>  
+<select id="cmbCity" name="cmbCity" value="{{ old('cmbCity') }}"></select>  
+<select id="cmbArea" name="cmbArea" value="{{ old('cmbArea') }}"></select>  
 											</div>
 										</div>
 
 										<div class="am-form-group">
 											<label for="user-intro" class="am-form-label">详细地址</label>
 											<div class="am-form-content">
-												<textarea class="" rows="3" id="user-intro" placeholder="输入详细地址"></textarea>
+												<textarea class="" rows="3" id="user-intro" placeholder="输入详细地址" name="address" value="">{{ old('address') }}</textarea>
 												<small>100字以内写出你的详细地址...</small>
 											</div>
 										</div>
-
+										
 										<div class="am-form-group">
 											<div class="am-u-sm-9 am-u-sm-push-3">
-												<a class="am-btn am-btn-danger">保存</a>
-												<a href="javascript: void(0)" class="am-close am-btn am-btn-danger" data-am-modal-close>取消</a>
+												<input type="submit" value="提交" class="am-btn am-btn-danger">
+												<input type="reset" value="重置" class="am-close am-btn am-btn-danger">
+
 											</div>
 										</div>
 									</form>
@@ -276,14 +285,14 @@
 			<aside class="menu">
 				<ul>
 					<li class="person">
-						<a href="index.html">个人中心</a>
+						<a href="/home/user/personal">个人中心</a>
 					</li>
 					<li class="person">
 						<a href="#">个人资料</a>
 						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li> <a href="safety.html">安全设置</a></li>
-							<li class="active"> <a href="address.html">收货地址</a></li>
+							<li> <a href="/home/user/{{ $phone }}">个人信息</a></li>
+							<li> <a href="/home/safety/index">安全设置</a></li>
+							<li class="active"> <a href="/home/address">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">
@@ -320,3 +329,29 @@
 	</body>
 
 </html>
+<script type="text/javascript">  
+addressInit('cmbProvince', 'cmbCity', 'cmbArea');  
+</script>
+<script type="text/javascript">
+	// var ress = document.getElementById('address');
+	function fan(status,uid,id){
+		
+		$.ajax({
+			headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+			type:'post',
+			url:'/home/address/list',
+			data:{'uid':uid,'id':id},
+			dataType: 'json',
+			success:function(data){
+				/*if(res == 0){
+					$('#address').className('user-addresslist defaultAddr');
+				}else{
+					$('#address').className('user-addresslist');
+				}*/
+				console.log(data);
+			}
+		});
+	}
+</script>

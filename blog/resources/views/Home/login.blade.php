@@ -12,6 +12,9 @@
 
 		<link rel="stylesheet" href="/Home/AmazeUI-2.4.2/assets/css/amazeui.css" />
 		<link href="/Home/css/dlstyle.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 	</head>
 
 	<body>
@@ -30,36 +33,46 @@
 							<div class="clear"></div>
 						
 						<div class="login-form">
-						  <form>
+							
+						  <form action="/home/login" method="post">
+						  	{{ csrf_field() }}
 							   <div class="user-name">
 								    <label for="user"><i class="am-icon-user"></i></label>
-								    <input type="text" name="" id="user" placeholder="手机/用户名">
+								    <input type="text" name="phone" id="user" placeholder="手机/用户名" value="{{ old('phone') }}">
                  </div>
                  <div class="user-pass">
 								    <label for="password"><i class="am-icon-lock"></i></label>
-								    <input type="password" name="" id="password" placeholder="请输入密码">
+								    <input type="password" name="password" id="password" placeholder="请输入密码" value="{{ old('password') }}">
                  </div>
-              </form>
+              
            </div>
             
             <div class="login-links">
-                <label for="remember-me"><input id="remember-me" type="checkbox">记住密码</label>
+                <!-- <label for="remember-me"><input id="remember-me" type="checkbox">记住密码</label> -->
 								<a href="#" class="am-fr">忘记密码</a>
 								<a href="/home/register/create" class="zcnext am-fr am-btn-default">注册</a>
 								<br />
             </div>
+
 								<div class="am-cf">
 									<input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm">
 								</div>
+								</form>
 						<div class="partner">		
-								<h3>合作账号</h3>
+								
 							<div class="am-btn-group">
 								<li><a href="#"><i class="am-icon-qq am-icon-sm"></i><span>QQ登录</span></a></li>
 								<li><a href="#"><i class="am-icon-weibo am-icon-sm"></i><span>微博登录</span> </a></li>
 								<li><a href="#"><i class="am-icon-weixin am-icon-sm"></i><span>微信登录</span> </a></li>
 							</div>
 						</div>	
-
+						<!-- 显示错误处理 -->
+					        @if (session('error'))
+							    <div class="alert alert-warning alert-dismissible" role="alert">
+					              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							        {{ session('error') }}
+							    </div>
+							@endif
 				</div>
 			</div>
 		</div>

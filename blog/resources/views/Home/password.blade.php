@@ -15,7 +15,9 @@
 
 		<script type="text/javascript" src="/Home/js/jquery-1.7.2.min.js"></script>
 		<script src="/Home/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
-
+		<link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 	</head>
 
 	<body>
@@ -35,7 +37,7 @@
 						</ul>
 						<ul class="message-r">
 							<div class="topMessage home">
-								<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+								<div class="menu-hd"><a href="/" target="_top" class="h">商城首页</a></div>
 							</div>
 							<div class="topMessage my-shangcheng">
 								<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
@@ -102,7 +104,7 @@
                                 <i class="u-stage-icon-inner">1<em class="bg"></em></i>
                                 <p class="stage-name">重置密码</p>
                             </span>
-							<span class="step-2 step">
+							<span class="step-2 step" id="pass">
                                 <em class="u-progress-stage-bg"></em>
                                 <i class="u-stage-icon-inner">2<em class="bg"></em></i>
                                 <p class="stage-name">完成</p>
@@ -113,32 +115,54 @@
 							<div class="u-progress-bar-inner"></div>
 						</div>
 					</div>
-					<form class="am-form am-form-horizontal">
+					@if (count($errors) > 0)
+			            <div class="alert alert-warning alert-dismissible" role="alert">
+			              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			              <ul>
+			                @foreach ($errors->all() as $error)
+			                    <li>{{ $error }}</li>
+			                @endforeach
+			              </ul>
+			            </div>
+			        @endif
+					<form class="am-form am-form-horizontal" action="/home/register/dataword" method="post">
+						{{ csrf_field() }}
 						<div class="am-form-group">
 							<label for="user-old-password" class="am-form-label">原密码</label>
 							<div class="am-form-content">
-								<input type="password" id="user-old-password" placeholder="请输入原登录密码">
+								<input type="password" id="user-old-password" placeholder="请输入原登录密码" name="pass">
 							</div>
 						</div>
 						<div class="am-form-group">
 							<label for="user-new-password" class="am-form-label">新密码</label>
 							<div class="am-form-content">
-								<input type="password" id="user-new-password" placeholder="由数字、字母组合">
+								<input type="password" id="user-new-password" placeholder="由数字、字母组合,最少八位,最多十六位" name="password">
 							</div>
 						</div>
 						<div class="am-form-group">
 							<label for="user-confirm-password" class="am-form-label">确认密码</label>
 							<div class="am-form-content">
-								<input type="password" id="user-confirm-password" placeholder="请再次输入上面的密码">
+								<input type="password" id="user-confirm-password" placeholder="请再次输入上面的密码" name="repassword">
 							</div>
 						</div>
 						<div class="info-btn">
-							<div class="am-btn am-btn-danger">保存修改</div>
+								<input class="am-btn am-btn-danger" type="submit" value="保存修改">
 						</div>
 
 					</form>
-
 				</div>
+				@if (session('error'))
+					<div class="alert alert-warning alert-danger" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						    {{ session('error') }}
+					</div>
+				@endif
+				@if (session('success'))
+					<div class="alert alert-warning alert-danger" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						{{ session('success') }}
+					</div>
+				@endif
 				<!--底部-->
 				<div class="footer">
 					<div class="footer-hd">
@@ -167,14 +191,14 @@
 			<aside class="menu">
 				<ul>
 					<li class="person">
-						<a href="index.html">个人中心</a>
+						<a href="/home/user/personal">个人中心</a>
 					</li>
 					<li class="person">
 						<a href="#">个人资料</a>
 						<ul>
-							<li> <a href="information.html">个人信息</a></li>
-							<li> <a href="safety.html">安全设置</a></li>
-							<li> <a href="address.html">收货地址</a></li>
+							<li> <a href="/home/user/{{ $phone }}">个人信息</a></li>
+							<li> <a href="/home/safety/index">安全设置</a></li>
+							<li> <a href="/home/address">收货地址</a></li>
 						</ul>
 					</li>
 					<li class="person">
