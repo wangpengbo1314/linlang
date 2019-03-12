@@ -32,17 +32,11 @@ class AddressController extends Controller
 
         // echo $data;
         $res = DB::table('goods_address')->where('id',$id)->update(['status'=>0]);
-        echo $res;
-
-        // $moren = DB::table('goods_address')->where('id',$id)->get();
-        // foreach($moren as $kk=>$vv){
-        //     $vv->status = 0;
-        // }
-        // $ress = Address::find($id);
-        // $ress->status = $vv->status;
-        // $res = $ress->save();
-
         // echo $res;
+
+        $address = DB::table('goods_address')->where('status',0)->where('user_id',$uid)->first();
+        echo json_encode($address);
+
     }
 
     /**

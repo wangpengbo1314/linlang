@@ -6,9 +6,39 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Home\User;
 use App\Model\Home\Userinfo;
+use App\Model\Home\Goods;
+use App\Model\Home\Goodsinfo;
 use DB;
 class UserController extends Controller
 {
+    public function search(Request $request){
+         $goods = $request->input('name');
+         //dd($info);
+         $res = Goods::where('goods_name','like','%'.$goods.'%')->get();
+            foreach($res as $k=>$v){
+                $data = Goodsinfo::where('goods_id',$v->id)->get();
+                $v['sub'] = $data;
+            }
+            //dd($res);
+            $info = [];
+            foreach($res as $k=>$v){
+                //dump($v->id);
+                $info[$k]['id'] = $v->id;
+                $info[$k]['img'] = $v->goods_img;
+                $info[$k]['name'] = $v->goods_name;
+                foreach($v->sub as $vv){
+                    //dump($vv->id);
+                    $info[$k]['jiage'] = $vv->price;
+                    $info[$k]['xiaoliang'] = $vv->number;
+                }
+            
+        }
+        //dd($goods);
+         //$data = $res->goods_cargo;
+         return View('Home.search',['info'=>$info,'goods'=>$goods]);
+       }
+
+
     public static function getUserinfo(){
         
         // $data = DB::table('user_info')->where('user_id',$homeid)->first();

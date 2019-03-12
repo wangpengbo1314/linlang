@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<title>商品页面</title>
 
 		<link href="/Home/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
@@ -12,7 +12,8 @@
 		<link href="/Home/basic/css/demo.css" rel="stylesheet" type="text/css" />
 		<link type="text/css" href="/Home/css/optstyle.css" rel="stylesheet" />
 		<link type="text/css" href="/Home/css/style.css" rel="stylesheet" />
-
+		<link rel="stylesheet" href="/layui-v2.4.5/layui/css/layui.css">
+		<script src="/layui-v2.4.5/layui/layui.all.js"></script>
 		<script type="text/javascript" src="/Home/basic/js/jquery-1.7.min.js"></script>
 		<script type="text/javascript" src="/Home/basic/js/quick_links.js"></script>
 
@@ -41,13 +42,13 @@
 					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
 				</div>
 				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+					<div class="menu-hd MyShangcheng"><a href="/home/user/personal" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+					<div class="menu-hd"><a id="mc-menu-hd" href="/home/shop/index" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">{{$count}}</strong></a></div>
 				</div>
 				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+					<div class="menu-hd"><a href="/home/collection/list" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 			</ul>
 			</div>
 
@@ -140,22 +141,22 @@
 							</script>
 
 							<div class="tb-booth tb-pic tb-s310">
-								<a href="images/01.jpg"><img src="/Home/images/01_mid.jpg" alt="细节展示放大镜特效" rel="images/01.jpg" class="jqzoom" /></a>
+								<a href="images/01.jpg"><img src="/Home/images/01_mid.jpg" alt="细节展示放大镜特效" rel="/Home/images/01.jpg" class="jqzoom" /></a>
 							</div>
 							<ul class="tb-thumb" id="thumblist">
 								<li class="tb-selected">
 									<div class="tb-pic tb-s40">
-										<a href="#"><img src="/Home/images/01_small.jpg" mid="images/01_mid.jpg" big="images/01.jpg"></a>
+										<a href="#"><img src="/Home/images/01_small.jpg" mid="/Home/images/01_mid.jpg" big="/Home/images/01.jpg"></a>
 									</div>
 								</li>
 								<li>
 									<div class="tb-pic tb-s40">
-										<a href="#"><img src="/Home/images/02_small.jpg" mid="images/02_mid.jpg" big="images/02.jpg"></a>
+										<a href="#"><img src="/Home/images/02_small.jpg" mid="/Home/images/02_mid.jpg" big="/Home/images/02.jpg"></a>
 									</div>
 								</li>
 								<li>
 									<div class="tb-pic tb-s40">
-										<a href="#"><img src="/Home/images/03_small.jpg" mid="images/03_mid.jpg" big="images/03.jpg"></a>
+										<a href="#"><img src="/Home/images/03_small.jpg" mid="/Home/images/03_mid.jpg" big="Home/images/03.jpg"></a>
 									</div>
 								</li>
 							</ul>
@@ -165,12 +166,12 @@
 					</div>
 
 					<div class="clearfixRight">
-
+						
 						<!--规格属性-->
 						<!--名称-->
 						<div class="tb-detail-hd">
 							<h1>	
-				 良品铺子 手剥松子218g 坚果炒货 巴西松子
+				 {{ $data->goods_name }}
 	          </h1>
 						</div>
 						<div class="tb-detail-list">
@@ -178,11 +179,11 @@
 							<div class="tb-detail-price">
 								<li class="price iteminfo_price">
 									<dt>促销价</dt>
-									<dd><em>¥</em><b class="sys_item_price">56.90</b>  </dd>                                 
+									<dd><em>¥</em><b class="sys_item_price">{{$data->goods_price}}</b>  </dd>                                 
 								</li>
 								<li class="price iteminfo_mktprice">
 									<dt>原价</dt>
-									<dd><em>¥</em><b class="sys_item_mktprice">98.00</b></dd>									
+									<dd><em>¥</em><b class="sys_item_mktprice">{{$data->goodsinfo->goods_rel_price}}</b></dd>									
 								</li>
 								<div class="clear"></div>
 							</div>
@@ -215,13 +216,13 @@
 							<!--销量-->
 							<ul class="tm-ind-panel">
 								<li class="tm-ind-item tm-ind-sellCount canClick">
-									<div class="tm-indcon"><span class="tm-label">月销量</span><span class="tm-count">1015</span></div>
+									<div class="tm-indcon"><span class="tm-label">月销量</span><span class="tm-count">{{$data->goodsinfo->month_sales}}</span></div>
 								</li>
 								<li class="tm-ind-item tm-ind-sumCount canClick">
-									<div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">6015</span></div>
+									<div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{{$data->goods_sales}}</span></div>
 								</li>
 								<li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
-									<div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">640</span></div>
+									<div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">{{$data->goodsinfo->goods_recoment_num}}</span></div>
 								</li>
 							</ul>
 							<div class="clear"></div>
@@ -323,6 +324,7 @@
 							<a><span class="am-icon-heart am-icon-fw">收藏</span></a>
 							
 							</div>
+							
 							<li>
 								<div class="clearfix tb-btn tb-btn-buy theme-login">
 									<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">立即购买</a>
@@ -330,7 +332,16 @@
 							</li>
 							<li>
 								<div class="clearfix tb-btn tb-btn-basket theme-login">
-									<a id="LikBasket" title="加入购物车" href="#"><i></i>加入购物车</a>
+									<a id="LikBasket" title="加入购物车" href="javascript:;" onclick="show({{$data->goodsinfo->goods_id}},'{{$data->goods_pic}}','{{$data->goods_name}}',{{$data->goods_price}},{{$data->goodsinfo->goods_rel_price}})"><i></i>加入购物车</a>
+								</div>
+							</li>
+							<li>
+								<div class="clearfix tb-btn tb-btn-buy theme-login">
+									@if($collection == null)
+									<a id="LikBuys" title="收藏" href="javascript:;" onclick="cang({{$data->goodsinfo->id}},'{{$data->goods_pic}}','{{$data->goods_name}}',{{$data->goods_price}},{{$data->goodsinfo->goods_rel_price}},{{$data->goodsinfo->month_sales}})">收藏</a>
+									@else
+									<a id="LikBuys" title="已收藏" href="javascript:;">已收藏</a>
+									@endif
 								</div>
 							</li>
 						</div>
@@ -340,7 +351,6 @@
 					<div class="clear"></div>
 
 				</div>
-
 				<!--优惠套装-->
 				<div class="match">
 					<div class="match-title">优惠套装</div>
@@ -382,7 +392,7 @@
 						     	
 							      <li class="first">
 							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="images/browse1.jpg"> </a>               
+							      		<a  href="#"> <img class="" src="/Home/images/browse1.jpg"> </a>               
 							      	</div>
 							      	<div class="p-name"><a href="#">
 							      		【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
@@ -392,7 +402,7 @@
 							      </li>
 							      <li>
 							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="images/browse1.jpg"> </a>               
+							      		<a  href="#"> <img class="" src="/Home/images/browse1.jpg"> </a>               
 							      	</div>
 							      	<div class="p-name"><a href="#">
 							      		【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
@@ -402,7 +412,7 @@
 							      </li>
 							      <li>
 							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="images/browse1.jpg"> </a>               
+							      		<a  href="#"> <img class="" src="/Home/images/browse1.jpg"> </a>               
 							      	</div>
 							      	<div class="p-name"><a href="#">
 							      		【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
@@ -412,7 +422,7 @@
 							      </li>							      
 							      <li>
 							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="images/browse1.jpg"> </a>               
+							      		<a  href="#"> <img class="" src="/Home/images/browse1.jpg"> </a>               
 							      	</div>
 							      	<div class="p-name"><a href="#">
 							      		【三只松鼠_开口松子】零食坚果特产炒货东北红松子原味
@@ -422,7 +432,7 @@
 							      </li>							      
 							      <li>
 							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="images/browse1.jpg"> </a>               
+							      		<a  href="#"> <img class="" src="/Home/images/browse1.jpg"> </a>               
 							      	</div>
 							      	<div class="p-name"><a href="#">
 							      		【三只松鼠_开口松子218g】零食坚果特产炒货东北红松子原味
@@ -558,7 +568,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -592,7 +602,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -626,7 +636,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -660,7 +670,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -694,7 +704,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -728,7 +738,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -762,7 +772,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -796,7 +806,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -829,7 +839,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -863,7 +873,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -897,7 +907,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -931,7 +941,7 @@
 										<li class="am-comment">
 											<!-- 评论容器 -->
 											<a href="">
-												<img class="am-comment-avatar" src="images/hwbn40x40.jpg" />
+												<img class="am-comment-avatar" src="/Home/images/hwbn40x40.jpg" />
 												<!-- 评论者头像 -->
 											</a>
 
@@ -1194,13 +1204,13 @@
 
 						</div>
 						<div id="shopCart" class="item">
-							<a href="#">
+							<a href="/home/shop/index">
 								<span class="message"></span>
 							</a>
 							<p>
 								购物车
 							</p>
-							<p class="cart_num">0</p>
+							<p class="cart_num">{{$count}}</p>
 						</div>
 						<div id="asset" class="item">
 							<a href="#">
@@ -1332,3 +1342,51 @@
 	</body>
 
 </html>
+<script type="text/javascript">
+	function show(goods_id,goods_pic,goods_name,price,rel_price){
+		$.ajax({
+			headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+			type:'post',
+			url:'/home/shop/show',
+			data:{
+				'goods_id':goods_id,
+				'goods_name':goods_name,
+				'goods_pic':goods_pic,
+				'price':price,
+				'rel_price':rel_price,
+				'number': $('#text_box').val(),
+			},
+			dataType: 'json',
+			success:function(res){
+				layer.msg('添加成功');
+			}
+		});
+	}
+
+</script>
+<script type="text/javascript">
+	function cang(goodsinfo_id,goods_pic,goods_name,price,rel_price,month_sales){
+		$.ajax({
+			headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+			type:'post',
+			url:'/home/collection/show',
+			data:{
+				'goodsinfo_id':goodsinfo_id,
+				'goods_name':goods_name,
+				'goods_pic':goods_pic,
+				'price':price,
+				'rel_price':rel_price,
+				'month_sales':month_sales,
+			},
+			dataType: 'json',
+			success:function(res){
+				layer.msg('收藏成功');
+				$('#LikBuys').html('已收藏');
+			}
+		});
+	}
+</script>

@@ -10,7 +10,7 @@
 		<link href="/Home/basic/css/demo.css" rel="stylesheet" type="text/css" />
 		<link href="/Home/css/cartstyle.css" rel="stylesheet" type="text/css" />
 		<link href="/Home/css/optstyle.css" rel="stylesheet" type="text/css" />
-
+		<script src="/layui-v2.4.5/layui/layui.all.js"></script>
 		<script type="text/javascript" src="/Home/js/jquery.js"></script>
 		
 		<script type="text/javascript" src="/bootstrap-3.3.7-dist/js/jquery-3.3.1.min.js"></script>
@@ -39,7 +39,7 @@
 					<div class="menu-hd"><a id="mc-menu-hd" href="/home/shop/index" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 				</div>
 				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+					<div class="menu-hd"><a href="/home/collection/list" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 			</ul>
 			</div>
 
@@ -90,7 +90,8 @@
 						</div>
 					</div>
 					<div class="clear"></div>
-					@foreach($data as $k=>$v)
+					<!-- {{ $table = 0 }} -->
+					@foreach($date as $k=>$v)
 					<tr class="item-list">
 						<div class="bundle  bundle-last ">
 							
@@ -106,7 +107,7 @@
 									<li class="td td-item">
 										<div class="item-pic">
 											<a href="javascript:;" target="_blank" data-title="{{ $v->name }}" class="J_MakePoint" data-point="tbcart.8.12">
-												<img src="/images/{{ $v->img }}" class="itempic J_ItemImg" width="80" height="80"></a>
+												<img src="/images/{{ $v->pic }}" class="itempic J_ItemImg" width="80" height="80"></a>
 										</div>
 										<div class="item-info">
 											<div class="item-basic-info">
@@ -116,8 +117,8 @@
 									</li>
 									<li class="td td-info">
 										<div class="item-props item-props-can">
-											<span class="sku-line">规格：{{ $v->spec }}</span>&nbsp;&nbsp;
-											<span class="sku-line">样式：{{ $v->style }}</span>
+											<span class="sku-line">规格：原味</span>&nbsp;&nbsp;
+											<span class="sku-line">样式：普通装</span>
 											<!-- <span tabindex="0" class="btn-edit-sku theme-login">修改</span>
 											<i class="theme-login am-icon-sort-desc"></i> -->
 										</div>
@@ -126,7 +127,7 @@
 										<div class="item-price price-promo-promo">
 											<div class="price-content">
 												<div class="price-line">
-													<em class="price-original">78.00</em>
+													<em class="price-original">{{$v->re_price}}</em>
 												</div>
 												<div class="price-line">
 													<em class="J_Price price-now" tabindex="0">{{ $v->price }}</em>
@@ -148,16 +149,16 @@
 										</div>
 									</li>
 									<li class="td td-sum">
+										<!-- {{ $table += $v->price * $v->number}} -->
 										<div class="td-inner">
-											<em tabindex="0" class="J_ItemSum number" id="price">{{ $v->price * $v->number
-											 }}</em>
+											<em tabindex="0" class="J_ItemSum number" id="price">{{ $v->price * $v->number }}</em>
 										</div>
 									</li>
 									<li class="td td-op">
 										<div class="td-inner">
-											<a title="移入收藏夹" class="btn-fav" href="#">
-                  移入收藏夹</a>
-											<a href="javascript:;" data-point-url="/home/shop/delete/{{$v->id}}" class="delete" onclick="return confirm('你确定要删除吗')">
+											<!-- <a title="移入收藏夹" class="btn-fav" href="#">
+                  移入收藏夹</a> -->
+											<a href="/home/shop/delete/{{$v->id}}" data-point-url="" class="delete" onclick="return confirm('你确定要删除吗')">
                   删除</a>
 										</div>
 									</li>
@@ -172,19 +173,18 @@
 				<div class="float-bar-wrapper">
 					<div id="J_SelectAll2" class="select-all J_SelectAll">
 						<div class="cart-checkbox">
-							<input class="check-all check" id="J_SelectAllCbx2" name="select-all" value="true" type="checkbox" >
+							<input class="check-all check" id="J_SelectAllCbx2" name="select-all" value="true" type="checkbox" onclick="check()">
 							<label for="J_SelectAllCbx2"></label>
 						</div>
 						<span>全选</span>
 					</div>
 					<div class="operations">
-						<a href="#" hidefocus="true" class="deleteAll">删除</a>
-						<a href="#" hidefocus="true" class="J_BatchFav">移入收藏夹</a>
+						<a href="/home/shop/update" hidefocus="true" class="deleteAll">删除</a>
 					</div>
 					<div class="float-bar-right">
 						<div class="amount-sum">
-							<span class="txt">已选商品</span>
-							<em id="J_SelectedItemsCount">0</em><span class="txt">件</span>
+							<!-- <span class="txt">已选商品</span>
+							<em id="J_SelectedItemsCount">0</em><span class="txt">件</span> -->
 							<div class="arrow-box">
 								<span class="selected-items-arrow"></span>
 								<span class="arrow"></span>
@@ -192,10 +192,10 @@
 						</div>
 						<div class="price-sum">
 							<span class="txt">合计:</span>
-							<strong class="price">¥<em id="J_Total">0.00</em></strong>
+							<strong class="price">¥<em id="J_Total">{{$table}}</em></strong>
 						</div>
 						<div class="btn-area">
-							<a href="pay.html" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
+							<a href="/home/pay/index" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
 								<span>结&nbsp;算</span></a>
 						</div>
 					</div>
@@ -308,16 +308,37 @@
 	    	}        
 		}
 	}
+	function check(){
+		$.ajax({
+			headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+			type:'post',
+			url:'/home/shop/check',
+			data:{''},
+			dataType: 'json',
+			success:function(date){
+				
+			}
+		});
+	}
 </script>
 <script type="text/javascript">
 		function dian(id){
-			if($('.check').attr('checked',false)){
-				$('.check').attr('checked',true);
+		$.ajax({
+			headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+			type:'post',
+			url:'/home/shop/revise',
+			data:{'id':id},
+			dataType: 'json',
+			success:function(ress){
+				layer.msg('删除成功');
+
 			}
-			if($('.check').attr('checked',true)){
-				$('.check').attr('checked',false);
-			}
-		}
+		});
+	}
 		
 
 </script>

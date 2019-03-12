@@ -127,6 +127,7 @@
 								<div class="u-progress-bar-inner"></div>
 							</div>
 						</div>
+						@foreach($orderinfo as $k=>$v)
 						<div class="order-infoaside">
 							<div class="order-logistics">
 								<a href="logistics.html">
@@ -154,20 +155,17 @@
 									<div class="icon-add">
 									</div>
 									<p class="new-tit new-p-re">
-										<span class="new-txt">小叮当</span>
-										<span class="new-txt-rd2">159****1622</span>
+										<span class="new-txt-rd2">{{$v->address_name}}</span>
 									</p>
 									<div class="new-mu_l2a new-p-re">
 										<p class="new-mu_l2cw">
 											<span class="title">收货地址：</span>
-											<span class="province">湖北</span>省
-											<span class="city">武汉</span>市
-											<span class="dist">洪山</span>区
-											<span class="street">雄楚大道666号(中南财经政法大学)</span></p>
+											<span class="province">{{$v->address_cmb}}</span></p>
 									</div>
 								</div>
 							</div>
 						</div>
+						@endforeach
 						<div class="order-infomain">
 
 							<div class="order-top">
@@ -195,11 +193,12 @@
 							</div>
 
 							<div class="order-main">
-
+								<!-- {{$table6 = 0}} -->
+								@foreach($orderinfo as $k=>$v)
 								<div class="order-status3">
 									<div class="order-title">
-										<div class="dd-num">订单编号：<a href="javascript:;">1601430</a></div>
-										<span>成交时间：2015-12-20</span>
+										<div class="dd-num">订单编号：<a href="javascript:;">{{$v->rand}}</a></div>
+										<span>成交时间：{{$v->created_at}}</span>
 										<!--    <em>店铺：小桔灯</em>-->
 									</div>
 									<div class="order-content">
@@ -208,13 +207,13 @@
 												<li class="td td-item">
 													<div class="item-pic">
 														<a href="#" class="J_MakePoint">
-															<img src="/Home/images/kouhong.jpg_80x80.jpg" class="itempic J_ItemImg">
+															<img src="/images/{{$v->pic}}" class="itempic J_ItemImg">
 														</a>
 													</div>
 													<div class="item-info">
 														<div class="item-basic-info">
 															<a href="#">
-																<p>美康粉黛醉美唇膏 持久保湿滋润防水不掉色</p>
+																<p>{{$v->name}}</p>
 																<p class="info-little">颜色：12#川南玛瑙
 																	<br/>包装：裸装 </p>
 															</a>
@@ -223,12 +222,12 @@
 												</li>
 												<li class="td td-price">
 													<div class="item-price">
-														333.00
+														{{$v->price}}
 													</div>
 												</li>
 												<li class="td td-number">
 													<div class="item-number">
-														<span>×</span>2
+														<span>×</span>{{$v->number}}
 													</div>
 												</li>
 												<li class="td td-operation">
@@ -237,47 +236,13 @@
 													</div>
 												</li>
 											</ul>
-
-											<ul class="item-list">
-												<li class="td td-item">
-													<div class="item-pic">
-														<a href="#" class="J_MakePoint">
-															<img src="/Home/images/62988.jpg_80x80.jpg" class="itempic J_ItemImg">
-														</a>
-													</div>
-													<div class="item-info">
-														<div class="item-basic-info">
-															<a href="#">
-																<p>礼盒袜子女秋冬 纯棉袜加厚 韩国可爱 </p>
-																<p class="info-little">颜色分类：李清照
-																	<br/>尺码：均码</p>
-															</a>
-														</div>
-													</div>
-												</li>
-												<li class="td td-price">
-													<div class="item-price">
-														333.00
-													</div>
-												</li>
-												<li class="td td-number">
-													<div class="item-number">
-														<span>×</span>2
-													</div>
-												</li>
-												<li class="td td-operation">
-													<div class="item-operation">
-														退款/退货
-													</div>
-												</li>
-											</ul>
-
 										</div>
 										<div class="order-right">
 											<li class="td td-amount">
+												<!-- {{$table6 += $v->price * $v->number}} -->
 												<div class="item-amount">
-													合计：676.00
-													<p>含运费：<span>10.00</span></p>
+													合计：{{$table6}}
+													<p>运费：<span>包邮</span></p>
 												</div>
 											</li>
 											<div class="move-right">
@@ -289,14 +254,23 @@
 													</div>
 												</li>
 												<li class="td td-change">
+													@if($v->status == 0)
+													<div class="am-btn am-btn-danger anniu">
+														提醒发货</div>
+													@elseif($v->status == 1)
 													<div class="am-btn am-btn-danger anniu">
 														确认收货</div>
+													@elseif($v->status == 2)
+													<div class="am-btn am-btn-danger anniu">
+														商品评论</div>
+													@endif
 												</li>
 											</div>
 										</div>
 									</div>
 
 								</div>
+								@endforeach
 							</div>
 						</div>
 					</div>

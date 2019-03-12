@@ -117,7 +117,7 @@
 										<span class="province">{{ $v->cmbProvince }}</span>省
 										<span class="city">{{ $v->cmbCity }}</span>
 										<span class="dist">{{ $v->cmbArea }}</span>
-										<span class="street">{{ $v->cmdAddress }}</span></p>
+										<span class="street">{{ $v->cmbAddress }}</span></p>
 								</div>
 								<div class="new-addr-btn">
 									<a href="#"><i class="am-icon-edit"></i>编辑</a>
@@ -142,7 +142,7 @@
 										<span class="province">{{ $v->cmbProvince }}</span>省
 										<span class="city">{{ $v->cmbCity }}</span>
 										<span class="dist">{{ $v->cmbArea }}</span>
-										<span class="street">{{ $v->cmdAddress }}</span></p>
+										<span class="street">{{ $v->cmbAddress }}</span></p>
 								</div>
 								<div class="new-addr-btn">
 									<a href="#"><i class="am-icon-edit"></i>编辑</a>

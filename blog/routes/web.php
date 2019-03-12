@@ -15,10 +15,14 @@ Route::get('/','Home\RegisterController@index');
 Route::post('home/login','Home\RegisterController@login')->middleware('Register');
 Route::get('home/logout','Home\RegisterController@logout');
 // 首页
-Route::get('admin/index','Admin\IndexController@index');
+// Route::get('admin/index','Admin\IndexController@index');
 // 我的桌面
 Route::get('admin/index/welcome','Admin\IndexController@welcome');
 
+// 后台登录
+Route::get('admin/index','Admin\LoginController@index');
+Route::post('admin/login','Admin\LoginController@login')->middleware('login');
+Route::get('admin/logout','Admin\LoginController@logout');
 
 
 // 后台管理员
@@ -68,6 +72,7 @@ Route::get('/home/user/personal','Home\UserController@personal');
 Route::get('/home/user/update2/{id}','Home\UserController@update2');
 Route::post('/home/user/update1','Home\UserController@update1');
 Route::post('/home/user/role','Home\UserController@role');
+Route::post('/home/user/search','Home\UserController@search');
 Route::resource('home/user','Home\UserController');
 // 轮播图
 Route::resource('home/banner','Home\BannerController');
@@ -83,7 +88,31 @@ Route::post('/home/safety/list','Home\SafetyController@list');
 
 // 购物车
 Route::get('/home/shop/index','Home\ShopController@index');
-Route::get('/home/shop/show','Home\ShopController@show');
+Route::post('/home/shop/show','Home\ShopController@show');
 Route::get('/home/shop/jia/{id}','Home\ShopController@jia');
 Route::get('/home/shop/jian/{id}','Home\ShopController@jian');
 Route::get('/home/shop/delete/{id}','Home\ShopController@delete');
+Route::get('/home/shop/cart','Home\ShopController@cart');
+Route::post('/home/shop/revise','Home\ShopController@revise');
+Route::post('/home/shop/check','Home\ShopController@check');
+Route::get('/home/shop/update','Home\ShopController@update');
+
+// 收藏夹
+Route::get('/home/collection/index','Home\CollectionController@index');
+Route::get('/home/collection/list','Home\CollectionController@list');
+Route::post('/home/collection/show','Home\CollectionController@show');
+Route::get('/home/collection/delete/{id}','Home\CollectionController@delete');
+
+// 订单
+Route::get('/home/pay/index','Home\PayController@index');
+Route::get('/home/pay/list/{table}','Home\PayController@list');
+Route::get('/home/pay/orders','Home\PayController@orders');
+Route::get('/home/pay/ordersinfo','Home\PayController@ordersinfo');
+Route::get('/home/pay/show/{id}','Home\PayController@show');
+Route::get('/home/pay/comment/{id}','Home\PayController@comment');
+Route::post('/home/pay/assess/{id}','Home\PayController@assess');
+Route::get('/home/pay/comments','Home\PayController@comments');
+
+// 后台订单
+Route::get('/admin/order/index','Admin\OrderController@index');
+Route::post('/admin/order/show','Admin\OrderController@show');

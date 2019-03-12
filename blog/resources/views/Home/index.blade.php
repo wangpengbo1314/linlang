@@ -43,7 +43,7 @@
 						<div class="menu-hd"><a id="mc-menu-hd" href="/home/shop/index" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
 					</div>
 					<div class="topMessage favorite">
-						<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+						<div class="menu-hd"><a href="/home/collection/index" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 				</ul>
 				</div>
 
@@ -57,7 +57,8 @@
 
 					<div class="search-bar pr">
 						<a name="index_none_header_sysc" href="#"></a>
-						<form>
+						<form action="/home/user/search" method="post">
+							{{ csrf_field() }}
 							<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
 							<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
 						</form>
@@ -2176,7 +2177,7 @@
 		<div class="navCir">
 			<li class="active"><a href="/Home.html"><i class="am-icon-home "></i>首页</a></li>
 			<li><a href="sort.html"><i class="am-icon-list"></i>分类</a></li>
-			<li><a href="shopcart.html"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
+			<li><a href="/home/shop/index"><i class="am-icon-shopping-basket"></i>购物车</a></li>	
 			<li><a href="person/index.html"><i class="am-icon-user"></i>我的</a></li>					
 		</div>
 
@@ -2185,7 +2186,7 @@
 		<div class=tip>
 			<div id="sidebar">
 				<div id="wrap">
-					<div id="prof" class="item ">
+					<!-- <div id="prof" class="item ">
 						<a href="# ">
 							<span class="setting "></span>
 						</a>
@@ -2204,15 +2205,16 @@
 							<i class="icon_arrow_white "></i>
 						</div>
 
-					</div>
+					</div> -->
 					<div id="shopCart " class="item ">
-						<a href="# ">
+						<a href="/home/shop/index ">
 							<span class="message "></span>
 						</a>
+						
 						<p>
 							购物车
 						</p>
-						<p class="cart_num ">0</p>
+						<!-- <p class="cart_num ">0</p> -->
 					</div>
 					<div id="asset " class="item ">
 						<a href="# ">
@@ -2341,9 +2343,9 @@
 			</div>
 		</div>
 		<script>
-			window.jQuery || document.write('<script src="basic/js/jquery.min.js "><\/script>');
+			window.jQuery || document.write('<script src="/Home/basic/js/jquery.min.js "><\/script>');
 		</script>
-		<script type="text/javascript " src="basic/js/quick_links.js "></script>
+		<script type="text/javascript " src="/Home/basic/js/quick_links.js "></script>
 	</body>
 
 </html>

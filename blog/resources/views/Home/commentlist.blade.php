@@ -93,12 +93,14 @@
 							<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">发表评论</strong> / <small>Make&nbsp;Comments</small></div>
 						</div>
 						<hr/>
-
+						@foreach($orders as $k=>$v)
+						<form action="/home/pay/assess/{{$v->id}}" method="post" enctype="multipart/form-data">
+							{{csrf_field()}}
 						<div class="comment-main">
 							<div class="comment-list">
 								<div class="item-pic">
 									<a href="#" class="J_MakePoint">
-										<img src="/Home/images/comment.jpg_400x400.jpg" class="itempic">
+										<img src="/images/{{$v->img}}" class="itempic">
 									</a>
 								</div>
 
@@ -106,7 +108,7 @@
 
 									<div class="item-name">
 										<a href="#">
-											<p class="item-basic-info">美康粉黛醉美唇膏 持久保湿滋润防水不掉色</p>
+											<p class="item-basic-info">{{$v->name}}</p>
 										</a>
 									</div>
 									<div class="item-info">
@@ -115,108 +117,29 @@
 											<span>包装：裸装</span>
 										</div>
 										<div class="item-price">
-											价格：<strong>19.88元</strong>
+											价格：<strong>{{$v->price * $v->number}}元</strong>
 										</div>										
 									</div>
 								</div>
 								<div class="clear"></div>
 								<div class="item-comment">
-									<textarea placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！"></textarea>
+									<textarea placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！" name="text"></textarea>
 								</div>
 								<div class="filePic">
-									<input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*" >
-									<span>晒照片(0/5)</span>
+									<input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" name="img" id="img">
+									<span>点击晒照片(最多一张)</span>
 									<img src="/Home/images/image.jpg" alt="">
 								</div>
 								<div class="item-opinion">
-									<li><i class="op1"></i>好评</li>
-									<li><i class="op2"></i>中评</li>
-									<li><i class="op3"></i>差评</li>
+
+									<li><i class="op1" ></i>好评<input type="radio" value="1" name="satr"></li>
+									<li><i class="op2"></i>中评<input type="radio" value="2" name="satr"></li>
+									<li><i class="op3"></i>差评<input type="radio" value="3" name="satr"></li>
 								</div>
 							</div>
-							
-							<!--多个商品评论-->
-							<div class="comment-list">
-								<div class="item-pic">
-									<a href="#" class="J_MakePoint">
-										<img src="/Home/images/comment.jpg_400x400.jpg" class="itempic">
-									</a>
-								</div>
 
-								<div class="item-title">
-
-									<div class="item-name">
-										<a href="#">
-											<p class="item-basic-info">美康粉黛醉美唇膏 持久保湿滋润防水不掉色</p>
-										</a>
-									</div>
-									<div class="item-info">
-										<div class="info-little">
-											<span>颜色：洛阳牡丹</span>
-											<span>包装：裸装</span>
-										</div>
-										<div class="item-price">
-											价格：<strong>19.88元</strong>
-										</div>
-									</div>
-								</div>
-								<div class="clear"></div>
-								<div class="item-comment">
-									<textarea placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！"></textarea>
-								</div>
-								<div class="filePic">
-									<input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*" >
-									<span>晒照片(0/5)</span>
-									<img src="/Home/images/image.jpg" alt="">
-								</div>
-								<div class="item-opinion">
-									<li><i class="op1"></i>好评</li>
-									<li><i class="op2"></i>中评</li>
-									<li><i class="op3"></i>差评</li>
-								</div>
-							</div>
-							
-							<div class="comment-list">
-								<div class="item-pic">
-									<a href="#" class="J_MakePoint">
-										<img src="/Home/images/comment.jpg_400x400.jpg" class="itempic">
-									</a>
-								</div>
-
-								<div class="item-title">
-
-									<div class="item-name">
-										<a href="#">
-											<p class="item-basic-info">美康粉黛醉美唇膏 持久保湿滋润防水不掉色</p>
-										</a>
-									</div>
-									<div class="item-info">
-										<div class="info-little">
-											<span>颜色：洛阳牡丹</span>
-											<span>包装：裸装</span>
-										</div>
-										<div class="item-price">
-											价格：<strong>19.88元</strong>
-										</div>
-									</div>
-								</div>
-								<div class="clear"></div>
-								<div class="item-comment">
-									<textarea placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！"></textarea>
-								</div>
-								<div class="filePic">
-									<input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*" >
-									<span>晒照片(0/5)</span>
-									<img src="/Home/images/image.jpg" alt="">
-								</div>
-								<div class="item-opinion">
-									<li><i class="op1"></i>好评</li>
-									<li><i class="op2"></i>中评</li>
-									<li><i class="op3"></i>差评</li>
-								</div>
-							</div>							
 								<div class="info-btn">
-									<div class="am-btn am-btn-danger">发表评论</div>
+									<input type="submit" value="发表评论" class="am-btn am-btn-danger">
 								</div>							
 					<script type="text/javascript">
 						$(document).ready(function() {
@@ -232,7 +155,8 @@
 												
 							
 						</div>
-
+						</form>
+						@endforeach
 					</div>
 
 				</div>

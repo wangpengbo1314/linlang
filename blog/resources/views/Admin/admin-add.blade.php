@@ -89,7 +89,6 @@
 				<option value="0">超级管理员</option>
 				<option value="1">一级管理员</option>
 				<option value="2">普通管理员</option>
-				<option value="3">普通用户</option>
 			</select>
 			</span> </div>
 	</div>

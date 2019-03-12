@@ -10,10 +10,6 @@ use Hash;
 use App\Model\Admin\Users;
 class UserController extends Controller
 {
-    //
-
-
-    
 
     public function index(Request $request){
     	return view('Admin.admin-add');
@@ -40,14 +36,14 @@ class UserController extends Controller
     }
 
     public function list(Request $request){
-
+        $role = $request->session()->get('adminrole');
         $count = $request->input('count',5);
         $search = $request->input('search','');
         $data = Users::where('adminName','like','%'. $search.'%')->paginate($count);
     	// 获取数据
     	// $res = DB::table('admin_users')->get();
         $counts = DB::table('admin_users')->count();
-    	return view('Admin.admin-list',['data'=>$data,'count'=>$count,'request'=>$request->all(),'counts'=>$counts]);
+    	return view('Admin.admin-list',['data'=>$data,'count'=>$count,'request'=>$request->all(),'counts'=>$counts,'role'=>$role]);
     }
 
     // 修改数据
